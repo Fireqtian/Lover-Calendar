@@ -1,0 +1,351 @@
+/* components.css - 通用组件样式 */
+
+/* 标题区域 */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-bottom: 3rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(120, 119, 198, 0.1) 0%, transparent 70%);
+    animation: pulse 15s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+.title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ff8a00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+}
+
+.title-main {
+    display: block;
+    font-size: 5.5rem;
+    letter-spacing: 2px;
+}
+
+.title-sub {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    color: #a0a0d8;
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+}
+
+/* 按钮组 */
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* 卡片区域 */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    backdrop-filter: blur(5px);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: #667eea;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+.card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.card p {
+    color: #b0b0d0;
+    line-height: 1.6;
+}
+
+/* 诗歌区域 */
+.poem {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 4rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.poem-text {
+    font-size: 1.8rem;
+    line-height: 1.8;
+    color: #e0e0ff;
+}
+
+.poem-text p {
+    margin-bottom: 1rem;
+}
+
+.author {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #a0a0d8;
+    margin-top: 2rem;
+}
+
+/* 统计面板 */
+.stats-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 4rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-card {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.stats-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: #667eea;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+.stats-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.stats-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    text-align: left;
+}
+
+.stats-content p {
+    color: #b0b0d0;
+    margin-bottom: 0.8rem;
+}
+
+.stats-content span {
+    font-weight: 600;
+    color: #fff;
+}
+
+/* 状态选择按钮 */
+.status-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.status-btn.busy {
+    background: rgba(245, 87, 108, 0.2);
+    border-color: #f5576c;
+}
+
+.status-btn.busy:hover {
+    background: rgba(245, 87, 108, 0.3);
+}
+
+.status-btn.free {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.status-btn.free:hover {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+.status-btn.date {
+    background: rgba(255, 138, 0, 0.2);
+    border-color: #ff8a00;
+}
+
+.status-btn.date:hover {
+    background: rgba(255, 138, 0, 0.3);
+}
+
+.status-btn.clear {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.status-btn.clear:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 状态选择器组 */
+.status-selector {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* 选中的日期区域 */
+.selected-date {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 250px;
+}
+
+.selected-date p {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.selected-date input {
+    width: 100%;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 1rem;
+}
+
+.selected-date input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+/* 登录表单 */
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #b0b0d0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+.login-hint {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-hint p {
+    margin-bottom: 0.5rem;
+    color: #b0b0d0;
+    font-size: 0.9rem;
+}
+
+.login-hint strong {
+    color: #667eea;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.error-message {
+    color: #f5576c;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    background: rgba(245, 87, 108, 0.1);
+    border-radius: 5px;
+    border: 1px solid rgba(245, 87, 108, 0.3);
+    text-align: center;
+}

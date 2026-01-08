@@ -1,0 +1,85 @@
+/* particles.css - 粒子系统和控制面板样式 */
+
+/* 控制面板 */
+.controls {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 4rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.controls h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.control-group {
+    margin-bottom: 1.8rem;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: #b0b0d0;
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+    border: none;
+}
+
+.control-group span {
+    display: inline-block;
+    margin-left: 1rem;
+    min-width: 3rem;
+    font-weight: 600;
+    color: #667eea;
+}
+
+.control-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.control-group select option {
+    background: #1a1a2e;
+    color: white;
+}

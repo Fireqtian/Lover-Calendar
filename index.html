@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字星尘 | Digital Stardust</title>
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/particles.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 背景Canvas -->
+    <canvas id="stardustCanvas"></canvas>
+
+    <!-- 主内容容器 -->
+    <main class="container">
+        <!-- 标题区域 -->
+        <header class="hero">
+            <h1 class="title">
+                <span class="title-main">情侣星尘日历</span>
+                <span class="title-sub">Couple Calendar</span>
+            </h1>
+            <p class="tagline">标记你们的时间，同步你们的节奏</p>
+            <div class="hero-buttons">
+                <button id="modeToggle" class="btn">
+                    <i class="fas fa-magic"></i> 切换模式
+                </button>
+                <button id="infoBtn" class="btn">
+                    <i class="fas fa-info-circle"></i> 关于
+                </button>
+            </div>
+        </header>
+
+        <!-- 登录状态显示 -->
+        <div id="loginStatus" class="login-status" style="display: none;">
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="logoutBtn" class="btn btn-small">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </button>
+            </div>
+        </div>
+
+        <!-- 日历控制区 -->
+        <section class="calendar-section">
+            <div class="calendar-header">
+                <h2><i class="fas fa-calendar-alt"></i> 情侣日历</h2>
+                <div class="calendar-controls">
+                    <button id="prevMonthBtn" class="btn btn-small">
+                        <i class="fas fa-chevron-left"></i> 上月
+                    </button>
+                    <h3 id="currentMonth">2024年1月</h3>
+                    <button id="nextMonthBtn" class="btn btn-small">
+                        下月 <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button id="todayBtn" class="btn btn-small">
+                        <i class="fas fa-home"></i> 今天
+                    </button>
+                </div>
+            </div>
+
+            <!-- 日历网格 -->
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- 星期标题 -->
+                <div class="calendar-header-row">
+                    <div class="calendar-day-header">日</div>
+                    <div class="calendar-day-header">一</div>
+                    <div class="calendar-day-header">二</div>
+                    <div class="calendar-day-header">三</div>
+                    <div class="calendar-day-header">四</div>
+                    <div class="calendar-day-header">五</div>
+                    <div class="calendar-day-header">六</div>
+                </div>
+                <!-- 日历日期将由JavaScript动态生成 -->
+            </div>
+
+            <!-- 状态说明 -->
+            <div class="status-legend">
+                <div class="legend-section">
+                    <h4 style="width: 100%; text-align: center; margin-bottom: 10px; color: #b0b0d0;">状态颜色说明</h4>
+                </div>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell">
+                                <div class="demo-side side-partner busy"></div>
+                                <div class="demo-side side-self none"></div>
+                            </div>
+                        </div>
+                        <span>伴侣忙碌</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell">
+                                <div class="demo-side side-partner free"></div>
+                                <div class="demo-side side-self none"></div>
+                            </div>
+                        </div>
+                        <span>伴侣空闲</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell">
+                                <div class="demo-side side-partner date"></div>
+                                <div class="demo-side side-self none"></div>
+                            </div>
+                        </div>
+                        <span>伴侣想约会</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell">
+                                <div class="demo-side side-partner none"></div>
+                                <div class="demo-side side-self busy"></div>
+                            </div>
+                        </div>
+                        <span>我忙碌</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell">
+                                <div class="demo-side side-partner none"></div>
+                                <div class="demo-side side-self free"></div>
+                            </div>
+                        </div>
+                        <span>我空闲</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell">
+                                <div class="demo-side side-partner none"></div>
+                                <div class="demo-side side-self date"></div>
+                            </div>
+                        </div>
+                        <span>我想约会</span>
+                    </div>
+                    <div class="legend-item special">
+                        <div class="legend-demo">
+                            <div class="demo-cell mutual-date">
+                                <div class="demo-side side-partner date"></div>
+                                <div class="demo-side side-self date"></div>
+                            </div>
+                        </div>
+                        <span>双方都想约会 <i class="fas fa-heart" style="color: #ff8a00; margin-left: 5px;"></i></span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-demo">
+                            <div class="demo-cell past-day">
+                                <div class="demo-side side-partner busy"></div>
+                                <div class="demo-side side-self free"></div>
+                            </div>
+                        </div>
+                        <span>过去日期</span>
+                    </div>
+                </div>
+                <div class="legend-note">
+                    <p style="font-size: 0.9rem; color: #8888aa; text-align: center; margin-top: 15px; line-height: 1.4;">
+                        <i class="fas fa-info-circle"></i> 提示：鼠标悬停在日期上可查看详细状态
+                    </p>
+                </div>
+            </div>
+
+            <!-- 日历操作 -->
+            <div class="calendar-actions">
+                <div class="status-selector">
+                    <button class="status-btn busy" data-status="busy">
+                        <i class="fas fa-briefcase"></i> 标记为忙碌
+                    </button>
+                    <button class="status-btn free" data-status="free">
+                        <i class="fas fa-coffee"></i> 标记为空闲
+                    </button>
+                    <button class="status-btn date" data-status="date">
+                        <i class="fas fa-heart"></i> 标记为想约会
+                    </button>
+                    <button class="status-btn clear" data-status="clear">
+                        <i class="fas fa-times"></i> 清除标记
+                    </button>
+                </div>
+                <div class="selected-date">
+                    <p id="selectedDateInfo">未选择日期</p>
+                    <input type="text" id="dateNote" placeholder="添加备注...">
+                    <button id="saveNoteBtn" class="btn btn-small">
+                        <i class="fas fa-save"></i> 保存备注
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 统计面板 -->
+        <section class="stats-section">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>本月统计</h3>
+                <div class="stats-content">
+                    <p>忙碌天数: <span id="busyCount">0</span></p>
+                    <p>空闲天数: <span id="freeCount">0</span></p>
+                    <p>约会天数: <span id="dateCount">0</span></p>
+                    <p>共同空闲: <span id="commonFreeCount">0</span> 天</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 诗歌区域 -->
+        <section class="poem">
+            <div class="poem-text">
+                <p>在浩瀚的数字星海里，</p>
+                <p>捕捉每一粒同频的星尘。</p>
+                <p>当我们的时间交织成网，</p>
+                <p>引力便指引了心的归程。</p>
+                <p class="author">—— 星尘情书</p>
+            </div>
+        </section>
+
+        <!-- 控制面板 -->
+        <aside class="controls">
+            <h3><i class="fas fa-sliders-h"></i> 粒子设置</h3>
+            <div class="control-group">
+                <label for="particleCount">粒子数量</label>
+                <input type="range" id="particleCount" min="10" max="300" value="150">
+                <span id="countValue">150</span>
+            </div>
+            <div class="control-group">
+                <label for="gravity">引力强度</label>
+                <input type="range" id="gravity" min="0" max="2" step="0.1" value="1.3">
+                <span id="gravityValue">1.3</span>
+            </div>
+            <div class="control-group">
+                <label for="speed">运动速度</label>
+                <input type="range" id="speed" min="1" max="10" value="5">
+                <span id="speedValue">5</span>
+            </div>
+            <div class="control-group">
+                <label for="colorMode">色彩模式</label>
+                <select id="colorMode">
+                    <option value="rainbow">彩虹渐变</option>
+                    <option value="mono">单色宁静</option>
+                    <option value="fire">火焰炽热</option>
+                    <option value="ocean">深海幽蓝</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>© 2024 情侣星尘日历 | 让每一刻都成为星尘记忆</p>
+            <p class="hint">
+                <i class="fas fa-lightbulb"></i> ✨ 提示：拖动鼠标，感受彼此之间的引力与默契。
+            </p>
+        </footer>
+    </main>
+
+    <!-- 信息模态框 -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-star"></i> 关于数字星尘日历</h2>
+            <p>「情侣星尘日历」是一款专为情侣设计的互动式日历应用，通过诗意化的视觉隐喻，帮助伴侣们同步彼此的时间与情感节奏。</p>
+            <p>在这个应用中，每一天都是一个独立的星尘粒子，当你们标记「忙碌」「空闲」或「想约会」时，粒子会相应变换色彩与轨迹，模拟你们之间情感的引力与共振。</p>
+            <p>功能特色：</p>
+            <ul>
+                <li><strong>双向状态同步</strong> – 你和伴侣的日程一目了然</li>
+                <li><strong>星尘粒子动画</strong> – 视觉化呈现时间重叠与情感引力</li>
+                <li><strong>约会提醒与统计</strong> – 自动计算双方都有空的「共同空闲日」</li>
+                <li><strong>浪漫互动效果</strong> – 当双方都标记「想约会」时，会触发爱心气泡与光晕特效</li>
+                <li><strong>跨设备云端同步</strong> – 基于轻量后端实现数据持久化</li>
+            </ul>
+            <p>愿这枚数字星尘，能成为你们时间线上最温柔的见证。</p>
+        </div>
+    </div>
+
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="modal" style="display: flex;">
+        <div class="modal-content">
+            <h2><i class="fas fa-heart"></i> 登录情侣日历</h2>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> 用户名</label>
+                    <input type="text" id="username" placeholder="请输入用户名">
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> 密码</label>
+                    <input type="password" id="password" placeholder="请输入密码">
+                </div>
+                <div class="login-hint">
+                    <p><strong>默认账户:</strong></p>
+                    <p>爱丽丝: alice / alice123</p>
+                    <p>鲍勃: bob / bob123</p>
+                </div>
+                <div class="form-actions">
+                    <button id="loginBtn" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> 登录
+                    </button>
+                    <div id="loginError" class="error-message" style="display: none;">
+                        用户名或密码错误！
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 备注输入模态框 -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-sticky-note"></i> 添加备注</h2>
+            <div class="note-form">
+                <div class="form-group">
+                    <label for="noteInput"><i class="fas fa-edit"></i> 备注内容</label>
+                    <textarea id="noteInput" rows="4" placeholder="请输入备注内容..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="noteStatus"><i class="fas fa-tag"></i> 状态（可选）</label>
+                    <div class="status-options">
+                        <button class="status-option-btn" data-status="busy">
+                            <i class="fas fa-briefcase"></i> 忙碌
+                        </button>
+                        <button class="status-option-btn" data-status="free">
+                            <i class="fas fa-coffee"></i> 空闲
+                        </button>
+                        <button class="status-option-btn" data-status="date">
+                            <i class="fas fa-heart"></i> 想约会
+                        </button>
+                        <button class="status-option-btn" data-status="none">
+                            <i class="fas fa-times"></i> 无状态
+                        </button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button id="saveNoteModalBtn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 保存备注
+                    </button>
+                    <button id="cancelNoteModalBtn" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> 取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义日历悬停提示 -->
+    <div id="calendarTooltip" class="calendar-tooltip">
+        <div class="calendar-tooltip-partner">
+            <span class="calendar-tooltip-status"></span>
+            <span class="tooltip-text-partner">伴侣: 未标记</span>
+        </div>
+        <div class="calendar-tooltip-self">
+            <span class="calendar-tooltip-status"></span>
+            <span class="tooltip-text-self">我: 未标记</span>
+        </div>
+        <div class="calendar-tooltip-notes" id="calendarTooltipNotes">
+            <div class="tooltip-note-partner">
+                <i class="fas fa-user-friends" style="margin-right: 4px; color: #ff69b4;"></i>
+                <span class="tooltip-note-label">伴侣的备注：</span>
+                <span class="tooltip-note-text" id="partnerNoteText"></span>
+            </div>
+            <div class="tooltip-note-self">
+                <i class="fas fa-user" style="margin-right: 4px; color: #667eea;"></i>
+                <span class="tooltip-note-label">我的备注：</span>
+                <span class="tooltip-note-text" id="selfNoteText"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右键菜单 -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item busy" data-status="busy">
+            <i class="fas fa-briefcase"></i>
+            <span>标记为忙碌</span>
+        </div>
+        <div class="context-menu-item free" data-status="free">
+            <i class="fas fa-coffee"></i>
+            <span>标记为空闲</span>
+        </div>
+        <div class="context-menu-item date" data-status="date">
+            <i class="fas fa-heart"></i>
+            <span>标记为想约会</span>
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item note" id="addNoteMenuItem">
+            <i class="fas fa-sticky-note"></i>
+            <span>添加备注</span>
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item clear" data-status="clear">
+            <i class="fas fa-times"></i>
+            <span>清除标记</span>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/calendar.js"></script>
+</body>
+</html>
+</body>
